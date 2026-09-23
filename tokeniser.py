@@ -3,14 +3,12 @@ from powerToken import TokenType, Token
 class Tokeniser:
 
     def tokenise(self, line):
-
         tokens = []
         elements = line.split()
 
         for element in elements:
             tokens.append(Token(self.classify(element), element))
 
-        # print(tokens)
         return tokens
         
 

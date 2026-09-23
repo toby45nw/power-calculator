@@ -1,10 +1,13 @@
 class Command:
-    def __init__(self, name):
+    def __init__(self, name, default_assignment="ans"):
         self.name = name
+        self.default_assignment = default_assignment
 
     def validate(self, args, assignment, state):
         raise NotImplementedError
 
+    def execute(self, args):
+        raise NotImplementedError
 
 class ArithmeticCommand(Command):
     def validate(self, args, assignment, state):
@@ -32,22 +35,21 @@ class Clear(Command):
         super().__init__("clear")
 
     def validate(self, args, assignment, state):
-        return not args and not assignment
-
-class Vars(Command):
-    def __init__(self):
-        super().__init__("vars")
-
-    def validate(self, args, assignment, state):
-        return not args and not assignment
+        return not args and assignment == "ans"
 
 class Set(Command):
     def __init__(self):
         super().__init__("set")
 
     def validate(self, args, assignment, state):
-        return len(args) == 1 and assignment
+        return len(args) == 1 and assignment == "ans"
+    
+class Vars(Command):
+    def __init__(self):
+        super().__init__("vars", None)
 
+    def validate(self, args, assignment, state):
+        return not args and not assignment
 
 class Assign(Command):
     def __init__(self):

@@ -37,9 +37,11 @@ class PowerParser:
 
     def parse(self, tokens):
 
+        # Shorthand method to set the state
         if (len(tokens) == 2) and (tokens[0].type == TokenType.NUMBER) and (tokens[1].type == TokenType.NAME):
             return PowerCommand(self.valid_commands["assign"], tokens[0].value, tokens[1].value)
 
+        # Valid command and a assgined variable to save the result
         if (tokens[0].type == TokenType.WORD and tokens[0].value in self.valid_commands) and (tokens[-1].type == TokenType.NAME and not self.state.has_variable(tokens[-1].value)):
             for token in tokens[1:-1]:
                 if not self.is_valid_argument(token):
@@ -50,9 +52,10 @@ class PowerParser:
             assignment = tokens[-1].value
 
             self.validate_command(command, args, assignment)
-            
+
             return PowerCommand(command, args, assignment)
 
+        # Valid command but not assignment location so access the default
         if (tokens[0].type == TokenType.WORD and tokens[0].value in self.valid_commands):
             for token in tokens[1:]:
                 if not self.is_valid_argument(token):
@@ -60,11 +63,11 @@ class PowerParser:
 
             command = self.valid_commands[tokens[0].value]
             args = [token.value for token in tokens[1:]]
-            assignment = None
+            assignment = command.default_assignment
 
             self.validate_command(command, args, assignment)
-      
-            return PowerCommand(command, args)
+
+            return PowerCommand(command, args, assignment)
 
         raise ValueError("Invalid power command")
         
