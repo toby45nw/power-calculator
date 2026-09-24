@@ -22,9 +22,6 @@ class PowerParser:
         if token.type == TokenType.NUMBER:
             return True
 
-        if token.type == TokenType.ANS:
-            return self.state.has_ans()
-
         if token.type == TokenType.NAME:
             return self.state.has_variable(token.value)
 
@@ -39,7 +36,7 @@ class PowerParser:
 
         # Shorthand method to set the state
         if (len(tokens) == 2) and (tokens[0].type == TokenType.NUMBER) and (tokens[1].type == TokenType.NAME):
-            return PowerCommand(self.valid_commands["assign"], tokens[0].value, tokens[1].value)
+            return PowerCommand(self.valid_commands["assign"], [tokens[0].value], tokens[1].value)
 
         # Valid command and a assgined variable to save the result
         if (tokens[0].type == TokenType.WORD and tokens[0].value in self.valid_commands) and (tokens[-1].type == TokenType.NAME and not self.state.has_variable(tokens[-1].value)):

@@ -1,4 +1,7 @@
 from powerToken import TokenType, Token
+import re
+
+NUMBER_PATTERN = re.compile(r"-?(\d+\.?\d*|\.\d+)")
 
 class Tokeniser:
 
@@ -13,7 +16,7 @@ class Tokeniser:
         
 
     def classify(self, element):
-        if element.isnumeric():
+        if NUMBER_PATTERN.fullmatch(element):
             return TokenType.NUMBER
 
         if element == "ans":
