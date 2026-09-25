@@ -18,6 +18,7 @@ class PowerParser:
     def __init__(self, state):
         self.state = state
 
+    # Validate the arguments in a command; if the args is a number or a variable (NAME) its valid
     def is_valid_argument(self, token):
         if token.type == TokenType.NUMBER:
             return True
@@ -27,18 +28,21 @@ class PowerParser:
 
         return False
 
+    # Validate the command; Calls the validate function of the command object
+    # The command object holds its own validation logic
     def validate_command(self, command, args, assignment):
         if not command.validate(args, assignment, self.state):
             raise ValueError("Invalid command")
 
-
+    # Parse the tokens
     def parse(self, tokens):
 
         # Shorthand method to set the state
         if (len(tokens) == 2) and (tokens[0].type == TokenType.NUMBER) and (tokens[1].type == TokenType.NAME):
             return PowerCommand(self.valid_commands["assign"], [tokens[0].value], tokens[1].value)
 
-        # Valid command and a assgined variable to save the result
+        # Valid command and an assgined variable (variable doesnt have a saved value)
+        # Return the power comman with the command, args, and assginment
         if (tokens[0].type == TokenType.WORD and tokens[0].value in self.valid_commands) and (tokens[-1].type == TokenType.NAME and not self.state.has_variable(tokens[-1].value)):
             for token in tokens[1:-1]:
                 if not self.is_valid_argument(token):
@@ -52,7 +56,8 @@ class PowerParser:
 
             return PowerCommand(command, args, assignment)
 
-        # Valid command but not assignment location so access the default
+        # Valid command but no assignemnt targer (the assignemnt targer is dealt with in the previous if so only need to check for valid command word and valid args now)
+        # Return the command with the command, args, and default loaction for that command
         if (tokens[0].type == TokenType.WORD and tokens[0].value in self.valid_commands):
             for token in tokens[1:]:
                 if not self.is_valid_argument(token):

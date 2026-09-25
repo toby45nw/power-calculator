@@ -1,3 +1,4 @@
+# Define the commands and logic to validate and execute, and where to save the result
 class Command:
     def __init__(self, name, default_assignment="ans"):
         self.name = name

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+# Result class to hold the calculator result
 @dataclass
 class Result:
     value: float = None     # the number, if there is one
