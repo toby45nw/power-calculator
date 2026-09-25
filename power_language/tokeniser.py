@@ -1,4 +1,4 @@
-from powerToken import TokenType, Token
+from power_language.powerToken import TokenType, Token
 import re
 
 NUMBER_PATTERN = re.compile(r"-?(\d+\.?\d*|\.\d+)")

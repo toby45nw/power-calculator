@@ -1,4 +1,4 @@
-from powerResult import Result
+from result import Result
 
 # Holds the power command and the logic to execute the command
 class PowerCommand:

@@ -10,6 +10,9 @@ class CalculatorState:
         if name in self.variables:
             del self.variables[name]
 
+    def clear_variables(self):
+        self.variables = {}
+
     def has_variable(self, name):
         return name in self.variables
 

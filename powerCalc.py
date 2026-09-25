@@ -1,7 +1,7 @@
 from calculatorState import CalculatorState
-from powerParser import PowerParser
-from tokeniser import Tokeniser
-from powerResult import Result
+from power_language.powerParser import PowerParser
+from power_language.tokeniser import Tokeniser
+from result import Result
 
 
 # Assembled all the power calculator parts into the calculator
@@ -17,6 +17,11 @@ class PowerCalc:
         # If the line is empty return an empty result object and the calculator will just move to the next line
         if not line.strip():
             return Result()
+
+
+        # Debugging
+        self.state.set_variable("x", 5)
+        print("x", self.state.get_variable("x"))
 
         # tokenise the line
         # Try to parse the command line; return a powercommand object with the command loaded in
