@@ -8,6 +8,7 @@ class PowerCalc:
         self.state = CalculatorState()
         self.tokeniser = Tokeniser()
         self.parser = PowerParser(self.state)
+        self.history = []
 
     def execute(self, line):
         if not line.strip():
@@ -16,8 +17,11 @@ class PowerCalc:
         tokens = self.tokeniser.tokenise(line)
         try:
             command = self.parser.parse(tokens)
-            return command.execute(self.state)
+            result = command.execute(self.state)
         except ValueError:
-            return Result(error="Your Command is invalid")
+            result = Result(error="Your Command is invalid")
         except ZeroDivisionError:
-            return Result(error="Cannot divide by zero")
+            result = Result(error="Cannot divide by zero")
+
+        self.history.append((line.strip(), result))
+        return result
